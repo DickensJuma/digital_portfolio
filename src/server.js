@@ -41,13 +41,7 @@ function searchBySymbolAndDate(arg1, arg2) {
   }
 }
 
-//check is there is any argument provided
-if (args.length === 0) {
-  main();
-}
-
-if (args.length === 1) {
-  //check if date is valid
+function symbol_or_date() {
   function validateDate(date) {
     // parameter to number
     let dateNumber = Number(date);
@@ -55,8 +49,6 @@ if (args.length === 1) {
     let valid = new Date(dateNumber).getTime() > 0;
     return valid;
   }
-
-
 
   let parameter = args[0];
   let dateNumber = Number(parameter);
@@ -78,17 +70,29 @@ if (args.length === 1) {
 
   if (validateSymbol(parameter)) {
     searchBySymbol(parameter);
-  }else{
-    console.log("Invalid Symbol");
   }
 }
+let parameter1 = args[0];
 
-// check if there is two arguments
-if (args.length === 2) {
-  let parameter1 = args[0];
+let parameter2 = args[1];
+let dateNumber = Number(parameter2);
 
-  let parameter2 = args[1];
-  let dateNumber = Number(parameter2);
+let argLength = args.length;
 
+switch (argLength) {
+  case 0:
+    main()
+    break;
+  case 1:
+    symbol_or_date();
+    break;
+ 
+  case 2:
   searchBySymbolAndDate(parameter1, dateNumber);
+    break;
+
+  default:
+    break;
 }
+
+
