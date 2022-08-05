@@ -62,7 +62,7 @@ if (args.length === 1) {
   let dateNumber = Number(parameter);
 
   if (validateDate(parameter)) {
-    console.log(validateDate(parameter))
+    
     searchByDate(dateNumber);
   }
 

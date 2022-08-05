@@ -42,7 +42,7 @@ class Portfolio {
     let date = arg1;
     // parameter to number
   
-console.log("first")
+
     let result = transaction.filter((a) => {
       let dateA = a.timestamp;
       return dateA === date;
@@ -59,6 +59,10 @@ console.log("first")
       ...obj,
       amount: amount_to_fixed.toFixed(2),
     };
+    if(obj.amount === "NaN"){
+      console.log("No porfolio record found")
+      process.exit();
+    }
     console.log(`Asset At ${date}:`, obj);
   };
 
@@ -110,6 +114,10 @@ console.log("first")
       ...obj,
       amount: amount_to_fixed.toFixed(2),
     };
+    if(obj.amount === "NaN"){
+      console.log("No porfolio record found")
+      process.exit();
+    }
     console.log(`Asset ${obj.token} at ${obj.timestamp}:`, obj);
   };
 }

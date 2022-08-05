@@ -53,12 +53,5 @@ describe("searchBySymbolAndDate", () => {
 });
 
 
-//test input validation of searchByDate
-describe("searchByDate", () => {
-    it("should return an error if date is not valid", () => {
-        let instance = new Portfolio();
-        let result = instance.searchByDate("abc");
-        expect(result).toBe("Invalid date");
-    });
-    }
-);
+
+
