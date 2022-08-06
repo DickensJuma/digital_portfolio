@@ -32,23 +32,8 @@
 git clone repo
 
 ```
-- Download transactions logged on [[CSV file]()] and convert to json on [[mango-is](https://mango-is.com/tools/csv-to-json/)]
-- copy the coverted json to digital_portfolio/src/data transaction.js file
-
 
 ```sh
-# transaction.js structure
-export default {
-    "data": [ {
-            "timestamp":90229767,
-            "transaction_type":"WITHDRAWAL",
-            "token":"BTC",
-            "amount":0.545123
-            },
-            {...}
-    ]
-}
-        
 
 The CSV file has the following columns
 
@@ -82,15 +67,6 @@ npm run test
 
 ```
 
-_Then answer the following questions to generate a Node.js CLI._
-
-```sh
-npm start?  :latest portfolio value per token in USD
-npm start token?   :latest portfolio value for that token in USD
-npm start timestamp?  portfolio value per token in USD on that date
-npm start token timestamp?  :portfolio value of that token in USD on that date
-
-```
 <br>
 
     
@@ -104,15 +80,11 @@ npm start token timestamp?  :portfolio value of that token in USD on that date
 ```
 
 
-#### COMMANDS
+## Demo
 
-```sh
-npm start
-npm start <token>
-npm start <timestamp>
-npm start <token timestamp>
-```
 
+
+![digital_assets](https://user-images.githubusercontent.com/48822462/183264130-ee70058f-809f-45f4-baed-fafce05b59e1.png)
 
 <br>
 
@@ -120,16 +92,15 @@ npm start <token timestamp>
 <br>
 
 ## workflow
-<a href="#">
-        <img src="./src/assets/workflow.png" alt="create-node-cli" />
-    </a>
+![workflow](https://user-images.githubusercontent.com/48822462/183264129-ef7a37bc-59f8-414f-b438-2d8bb888898e.png)
+
 
 [📃][repo]
 
 ## License & Conduct
 
 - MIT © [Dickens Juma]()
-- Thanks to cryptocompare and mango-is
+- Thanks to inquirer and cryptocompare 
 
 
 <br>
