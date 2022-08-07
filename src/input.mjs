@@ -13,6 +13,7 @@ class Input {
     ]);
     return prompts.choices;
   }
+  
   async getFilter() {
     const option = await this.getOption();
     let questions = [];

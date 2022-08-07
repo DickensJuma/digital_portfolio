@@ -6,11 +6,25 @@ class Search {
     this.data = data;
   }
 
+  async amountInUsd(filteredArray) {
+
+    let filteredTransactions = Object.assign({}, ...filteredArray);
+    
+    let amountUsd = await amountToUsd(filteredTransactions.token);
+
+    let amountToFixed = (Number(filteredTransactions.amount)* amountUsd).toFixed(2);
+
+    filteredTransactions.amount = amountToFixed;
+
+    return filteredTransactions;
+  }
+
+
  async byLatest() {
     let token = ["BTC", "ETH", "XRP"];
     let latestData = [];
 
-    // sort latest transaction by symbol
+    // sort latest transaction by timestamp
     let latestTransactions = await Promise.all(this.data.sort((a, b) => {
       return b.timestamp - a.timestamp;
     }));
@@ -22,13 +36,13 @@ class Search {
       latestData.push(latestToken);
     });
 
+
      latestData = latestData.map(async (item) => {
         
-      let amount_usd = await amountToUsd(item.token);
-      let amount_token = Number(item.amount);
+      let amountUsd = await amountToUsd(item.token);
       
-      let amount_usd_total = amount_usd * amount_token;
-      item.amount = amount_usd_total.toFixed(2);
+      let amountUsdTotal = (amountUsd * Number(item.amount)).toFixed(2);
+      item.amount = amountUsdTotal;
 
        console.log(item)
     
@@ -36,42 +50,46 @@ class Search {
    
   };
 
-
-  byToken(token) {
+//search transaction by token
+  async byToken(token) {
     
-    let result = this.data.filter((a) => {
-      return a.token === token;
+    let filteredTransactions = this.data.filter((transaction) => {
+      return transaction.token === token;
     });
-    let obj = Object.assign({}, ...result);
-    console.log(`Asset ${obj.token}:`, obj);
+
+   // fet the latest transaction by token
+    let latestTransaction = await Promise.all(filteredTransactions.sort((a, b) => {
+      return b.timestamp - a.timestamp;
+    }));
+  
+    let theLatestTransaction = latestTransaction[0];
+  
+    let amountUsd = await amountToUsd(theLatestTransaction.token);
+  
+    let amountToFixed = (Number(theLatestTransaction.amount)* amountUsd).toFixed(2);
+   
+    theLatestTransaction.amount = amountToFixed;
+    
+   console.log(`Asset ${token}:`,theLatestTransaction);
 
   }
 
+  //search transaction by date
   async byDate(date) {
-  
-    // parameter to numbe
-  // console.log(data)
-    let result = this.data.filter((a) => {
-      let dateA = a.timestamp;
-      return dateA === date;
+
+    let result = this.data.filter((transaction) => {
+      let transactionDate = transaction.timestamp;
+      return transactionDate  === date;
     });
-    let obj = Object.assign({}, ...result);
-
-    let amount_usd = await amountToUsd(obj.token);
-
-    let amount_token = Number(obj.amount);
-
-    let amount_to_fixed = amount_token * amount_usd;
-
-    obj = {
-      ...obj,
-      amount: amount_to_fixed.toFixed(2),
-    };
-    if(obj.amount === "NaN"){
+   
+  let filteredTransactions = await this.amountInUsd(result);
+    
+   
+    if(filteredTransactions.amount === "NaN"){
       console.log("No porfolio record found")
       process.exit();
     }
-    console.log(`Asset At ${date}:`, obj);
+    console.log(`Asset At ${date}:`, filteredTransactions);
   }
 
  
@@ -79,26 +97,15 @@ class Search {
   //search transaction by date and symbol
   async byTokenAndDate (token, date) {
 
-    let result = this.data.filter((a) => {
-      return a.timestamp === date && a.token === token;
+    let filteredTransactions = this.data.filter((transaction) => {
+      return transaction.timestamp === date && transaction.token === token;
     });
-    let obj = Object.assign({}, ...result);
-
-    let amount_usd = await amountToUsd(obj.token);
-
-    let amount_token = Number(obj.amount);
-
-    let amount_to_fixed = amount_token * amount_usd;
-
-    obj = {
-      ...obj,
-      amount: amount_to_fixed.toFixed(2),
-    };
-    if(obj.amount === "NaN"){
+    let filteredTransactionAmountUsd = await this.amountInUsd(filteredTransactions);
+    if(filteredTransactionAmountUsd.amount === "NaN"){
       console.log("No porfolio record found")
       process.exit();
     }
-    console.log(`Asset ${obj.token} at ${obj.timestamp}:`, obj);
+    console.log(`Asset ${filteredTransactionAmountUsd.token} at ${filteredTransactionAmountUsd.timestamp}:`, filteredTransactionAmountUsd);
   }
 }
 
