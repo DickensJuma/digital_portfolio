@@ -62,9 +62,6 @@ npm install
 ```sh
 npm start
 
-#test
-npm run test
-
 ```
 
 <br>
@@ -99,7 +96,7 @@ npm run test
 
 ## License & Conduct
 
-- MIT © [Dickens Juma]()
+- ISC © [Dickens Juma]()
 - Thanks to inquirer and cryptocompare 
 
 
